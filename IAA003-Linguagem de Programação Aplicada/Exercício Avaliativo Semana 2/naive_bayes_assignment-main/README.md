@@ -10,6 +10,8 @@ Universidade Federal do Paraná - UFPR
 
 Prof. Alexander Robert Kutzke
 
+Estudante: Clístenes Grizafis Bento
+
 # Exercício de implementação do algoritmo Naive Bayes
 
 Altere o código do arquivo [spam_classifier.py](spam_classifier.py) para adicionar
