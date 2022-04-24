@@ -9,6 +9,7 @@ Universidade Federal do Paraná - UFPR
 **IAA003 - Linguagem de Programação Aplicada**
 
 Prof. Alexander Robert Kutzke
+
 Estudante: Clístenes Grizafis Bento
 
 # Exercício de implementação do Algoritmo A*.
