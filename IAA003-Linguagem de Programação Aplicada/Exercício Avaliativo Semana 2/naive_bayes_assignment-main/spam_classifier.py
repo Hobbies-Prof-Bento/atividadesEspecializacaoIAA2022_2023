@@ -1,9 +1,17 @@
+# =============================================================================
+# Alterações realizadas:
+#       - Verificar palavras do email inteiro ao invé de só o título
+#       (Obs: ficou comentado porque além de ficar mais pesado o resultado não é plausível)
+#       - Modificar tokenize para identificar palavras com números
+#       - Considerar apenas palavras que aparecem um número mínimo de vezes 
+# =============================================================================
 from typing import TypeVar, List, Tuple, Dict, Iterable, NamedTuple, Set
 from collections import defaultdict, Counter
 import re
 import random
 import math
 X = TypeVar('X')  # generic type to represent a data point
+
 
 def split_data(data: List[X], prob: float) -> Tuple[List[X], List[X]]:
     """Split data into fractions [prob, 1 - prob]"""
@@ -15,9 +23,21 @@ def split_data(data: List[X], prob: float) -> Tuple[List[X], List[X]]:
 def tokenize(text: str) -> Set[str]:
     text = text.lower()                         # Convert to lowercase,
     all_words = re.findall("[a-z0-9']+", text)  # extract the words, and
+    all_words = list(map(lambda word: "contains:number" if re.search(r'\d', word) else word, all_words))
     return set(all_words)                       # remove duplicates.
 
 assert tokenize("Data Science is science") == {"data", "science", "is"}
+
+def min_count(messages: Iterable[str], minimal_counts:int) -> str:
+    '''Takes a list of strings as input and returns the words that appear more than
+    minimal_counts times'''
+    text = ' '.join(messages).lower()
+    counter = Counter(text.split())
+    most_common_words = [item[0] for item in counter.items() if item[1] >= minimal_counts]
+    return ' '.join(most_common_words)
+
+assert min_count(['casa','o gato','gato', 'subiu', 'subiu no', 'cão', 'o cachorro','telhado','no telhado'], 2) == 'o gato subiu no telhado'
+
 
 class Message(NamedTuple):
     text: str
@@ -32,7 +52,12 @@ class NaiveBayesClassifier:
         self.token_ham_counts: Dict[str, int] = defaultdict(int)
         self.spam_messages = self.ham_messages = 0
 
-    def train(self, messages: Iterable[Message]) -> None:
+    def train(self, messages: Iterable[Message], minimal_counts: int) -> None: # novo parâmetro de entrada para a quantidade mínima de aceitaqvel de palavras
+    #def train(self, messages: Iterable[Message]) -> None:
+        
+        #cria uma lista de palavras que cumprem o critério mínimo
+        common_tokens = tokenize(min_count([message.text for message in messages], minimal_counts))
+        
         for message in messages:
             # Increment message counts
             if message.is_spam:
@@ -42,11 +67,12 @@ class NaiveBayesClassifier:
 
             # Increment word counts
             for token in tokenize(message.text):
-                self.tokens.add(token)
-                if message.is_spam:
-                    self.token_spam_counts[token] += 1
-                else:
-                    self.token_ham_counts[token] += 1
+                if token in common_tokens: #verifica se a palavre pode esta na lista de palavras que cumprem o critério mínimo.
+                    self.tokens.add(token)
+                    if message.is_spam:
+                        self.token_spam_counts[token] += 1
+                    else:
+                        self.token_ham_counts[token] += 1
 
     def probabilities(self, token: str) -> Tuple[float, float]:
         """returns P(token | spam) and P(token | not spam)"""
@@ -91,7 +117,8 @@ messages = [Message("spam rules", is_spam=True),
             Message("hello ham", is_spam=False)]
 
 model = NaiveBayesClassifier(k=0.5)
-model.train(messages)
+#model.train(messages)
+model.train(messages,1) #adicionado a quantidade mínima de palavras
 
 assert model.tokens == {"spam", "ham", "rules", "hello"}
 assert model.spam_messages == 1
@@ -140,6 +167,7 @@ for filename in glob.glob(path):
     # There are some garbage characters in the emails, the errors='ignore'
     # skips them instead of raising an exception.
     with open(filename, errors='ignore') as email_file:
+        #data.append(Message(email_file.read(), is_spam)) #comentado pq não atingiu resultado satisfatório
         for line in email_file:
             if line.startswith("Subject:"):
                 subject = line.lstrip("Subject: ")
@@ -150,7 +178,7 @@ random.seed(0)      # just so you get the same answers as me
 train_messages, test_messages = split_data(data, 0.75)
 
 model = NaiveBayesClassifier()
-model.train(train_messages)
+model.train(train_messages,5)
 
 predictions = [(message, model.predict(message.text))
                for message in test_messages]
@@ -172,4 +200,4 @@ words = sorted(model.tokens, key=lambda t: p_spam_given_token(t, model))
 print("spammiest_words", words[-10:])
 print("hammiest_words", words[:10])
 
-if __name__ == "__main__": main()
+#if __name__ == "__main__": main()
