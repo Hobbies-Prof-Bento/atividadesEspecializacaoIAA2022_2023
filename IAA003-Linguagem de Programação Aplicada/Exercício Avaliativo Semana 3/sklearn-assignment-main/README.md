@@ -10,6 +10,8 @@ Universidade Federal do Paraná - UFPR
 
 Prof. Alexander Robert Kutzke
 
+Estudante: Clístenes Grizafis Bento
+
 # Implementação com Scikit-Learn
 
 Utilizando a base de dados presente no repositório:
