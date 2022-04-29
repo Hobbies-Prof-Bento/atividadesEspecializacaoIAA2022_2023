@@ -22,6 +22,9 @@ from sklearn import metrics
 
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+import numpy as np
 
 
 if __name__ == "__main__":
@@ -34,50 +37,35 @@ if __name__ == "__main__":
     # the training data folder must be passed as first argument
     movie_reviews_data_folder = r"./data"
     dataset = load_files(movie_reviews_data_folder, shuffle=False)
-    print("n_samples: %d" % len(dataset.data))
-    
-    #classifier = svm.SVC()
-    #classifier = GaussianNB()
-    #classifier = MultinomialNB()
-    
-    
+    print("n_samples: %d" % len(dataset.data))    
+        
     # split the dataset in training and test set:
     docs_train, docs_test, y_train, y_test = train_test_split(
-        dataset.data, dataset.target, test_size=0.25, random_state=None)
+        dataset.data, dataset.target, test_size=0.25, random_state=None)    
     
+    text_clf = Pipeline([('vect', CountVectorizer()),
+                         ('tfidf', TfidfTransformer()),
+                         ('clf', MultinomialNB()),
+    ])
     
-    classifier.fit(docs_train,y_train)
+    parameters = {'vect__ngram_range': [(1, 1), (1, 2)],
+                  'tfidf__use_idf': (True, False),
+                  'clf__alpha': (1e-2, 1e-3),
+                  }
     
-    # expected = y_test
-    # predicted = classifier.predict(docs_test)
+    gs_clf = GridSearchCV(text_clf, parameters, n_jobs=-1)
     
-    # print("Classification report for classifier %s:\n%s\n"
-    #   % (classifier, metrics.classification_report(expected, predicted)))
-    # print("Confusion matrix:\n%s" % metrics.confusion_matrix(expected, predicted))
-
-    
-    
-
-    # TASK: Build a vectorizer / classifier pipeline that filters out tokens
-    # that are too rare or too frequent
-
-    # TASK: Build a grid search to find out whether unigrams or bigrams are
-    # more useful.
-    # Fit the pipeline on the training set using grid search for the parameters
-
-    # TASK: print the cross-validated scores for the each parameters set
-    # explored by the grid search
-
-    # TASK: Predict the outcome on the testing set and store it in a variable
-    # named y_predicted
+    gs_clf.fit(docs_train, y_train)  
+    predicted = gs_clf.predict(docs_test)
+    np.mean(predicted == y_test)
 
     # Print the classification report
-    ##print(metrics.classification_report(y_test, y_predicted,
-    ##                                    target_names=dataset.target_names))
+    print(metrics.classification_report(y_test, predicted,
+                                        target_names=dataset.target_names))
 
     # Print and plot the confusion matrix
-    ##cm = metrics.confusion_matrix(y_test, y_predicted)
-    ##print(cm)
+    cm = metrics.confusion_matrix(y_test, predicted)
+    print(cm)
 
     # import matplotlib.pyplot as plt
     # plt.matshow(cm)
