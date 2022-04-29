@@ -24,6 +24,7 @@ from sklearn import svm
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.linear_model import SGDClassifier
 import numpy as np
 
 
@@ -66,7 +67,29 @@ if __name__ == "__main__":
     # Print and plot the confusion matrix
     cm = metrics.confusion_matrix(y_test, predicted)
     print(cm)
+    
+    text_clf2 = Pipeline([('vect', CountVectorizer()),
+                         ('tfidf', TfidfTransformer()),
+                         ('clf', SGDClassifier(loss='hinge', penalty='l2',
+                                           alpha=1e-3, random_state=42,
+                                           max_iter=5, tol=None)),
+    ])
+    
+    gs_clf2 = GridSearchCV(text_clf2, parameters, n_jobs=-1)
+    
+    gs_clf2.fit(docs_train, y_train)  
+    predicted2 = gs_clf2.predict(docs_test)
+    np.mean(predicted2 == y_test)
 
+    # Print the classification report
+    print(metrics.classification_report(y_test, predicted2,
+                                        target_names=dataset.target_names))
+
+    # Print and plot the confusion matrix
+    cm = metrics.confusion_matrix(y_test, predicted2)
+    print(cm)
+    
+    
     # import matplotlib.pyplot as plt
     # plt.matshow(cm)
     # plt.show()
