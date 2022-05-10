@@ -1,0 +1,6 @@
+"nome"/"idade"
+"Razer"/25
+"Anthom"/30
+"Nizer"/18
+"ROjas"/15
+"Montaño"/20
