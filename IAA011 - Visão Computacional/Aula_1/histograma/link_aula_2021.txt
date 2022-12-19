@@ -1,0 +1,8 @@
+aula:
+https://www.youtube.com/watch?v=jtMV6U8At2M&list=PLGiPGGDvJBaKkKkcT5hjg4T_4_ia7WhB-&index=3&ab_channel=LucasFerrarideOliveira
+
+opencv1:
+https://www.youtube.com/watch?v=kQHeqS1qQVY&list=PLGiPGGDvJBaKkKkcT5hjg4T_4_ia7WhB-&ab_channel=LucasFerrarideOliveira
+
+opencv2:
+https://www.youtube.com/watch?v=1-xGxPUry6E&ab_channel=LucasFerrarideOliveira
