@@ -43,16 +43,11 @@
 <p>
   Introdução ao aprendizado de máquina e reconhecimento de padrões. Aprendizado supervisionado e não- supervisionado. Tarefas: Regressão, Classificação, Agrupamento e Associação. Técnicas: Redes Neurais Artificiais, Máquinas de Vetores de Suporte, Indução de Árvores de Decisão, Regras de Associação e KNN.
 </p>
+
 ### Laboratório de IA (24hrs/aulas)
 <p>
   
   Aplicações práticas em Aprendizado de Máquina. Uso do Weka/R. Bases de dados para treinamento e validação. Treinamento de modelos. Comparação de modelos e decisão.
-</p>
-
-### Frameworks de IA (24hrs/aulas)
-
-<p>  
-  Frameworks comerciais para IA e ciência de dados. Watson, Assistentes Pessoais, Google Cloud, Big Data.
 </p>
 
 ### Visão Computacional (24hrs/aulas)
@@ -69,16 +64,16 @@
 
 ## Disciplinas 2023:
 
-### Empreendedorismo e Inovação (24hrs/aulas)
+### Ciência de Dados Aplicada à Saúde (24hrs/aulas)
 
 <p>
-  Inovação e marco legal para marcas e patentes. Marco legal para a área de informática. Empreendedorismo: conceitos e questões emergentes. Experiências empreendedoras. A mortalidade de empresas brasileiras. Características e perfil do empreendedor: O empreendedor e o administrador. O processo empreendedor: fatores condicionantes e limitantes. Identificação e avaliação de oportunidades de negócio.
+  Introdução à Ciência de Dados no contexto da Saúde. Estrutura de dados em Biologia e Saúde. Dados clínicos e Medicina de Precisão. Abordagens para análise de dados, predição e recomendação em saúde. Suporte ao diagnóstico e apoio à decisão clínica. Estudos de Coorte. Análise de conjuntos de dados globalmente coerentes, envolvem ao menos três níveis de informação sobre o mesmo conjunto amostral, tais como: variabilidade genética, expressão gênica e um fenótipo de interesse. Modelos estatísticos e probabilísticos. Reconhecimento de imagens e padrões em saúde. O objetivo geral da disciplina será compreender como diferentes camadas de informação podem ser conectadas, e quais métodos e ferramentas computacionais podem fornecer uma visão sistêmica de problemas em saúde.
 </p>
 
-### Metodologia Científica (24hrs/aulas)
+### Frameworks de IA (24hrs/aulas)
 
-<p>
-  Produção de instrumentos de trabalho: anotações, leitura, sublinha, vocabulários e seminários. Busca de bibliografia. Iniciação a Ciência. Trabalhos de graduação. Iniciação a pesquisa. Técnicas para elaboração de projetos. Estudo da natureza do conhecimento científico, objetivando a compreensão, a realização de um projeto de pesquisa e a apresentação de um trabalho monográfico.
+<p>  
+  Frameworks comerciais para IA e ciência de dados. Watson, Assistentes Pessoais, Google Cloud, Big Data.
 </p>
 
 ### Tópicos de Inteligência Artificial (24hrs/aulas)
@@ -87,14 +82,21 @@
   Sistemas de recomendação. Mineração de texto. Processamento de linguagem natural. Assuntos contemporâneos.
 </p>
 
+
+### Metodologia Científica (24hrs/aulas)
+
+<p>
+  Produção de instrumentos de trabalho: anotações, leitura, sublinha, vocabulários e seminários. Busca de bibliografia. Iniciação a Ciência. Trabalhos de graduação. Iniciação a pesquisa. Técnicas para elaboração de projetos. Estudo da natureza do conhecimento científico, objetivando a compreensão, a realização de um projeto de pesquisa e a apresentação de um trabalho monográfico.
+</p>
+
 ### Seminários (24hrs/aulas)
 
 <p>
   Discussões de artigos, teses e trabalhos em andamento, apresentados por discentes do programa e orientados por docentes e/ou colaboradores.
 </p>
 
-### Ciência de Dados Aplicada à Saúde (24hrs/aulas)
+### Empreendedorismo e Inovação (24hrs/aulas)
 
 <p>
-  Introdução à Ciência de Dados no contexto da Saúde. Estrutura de dados em Biologia e Saúde. Dados clínicos e Medicina de Precisão. Abordagens para análise de dados, predição e recomendação em saúde. Suporte ao diagnóstico e apoio à decisão clínica. Estudos de Coorte. Análise de conjuntos de dados globalmente coerentes, envolvem ao menos três níveis de informação sobre o mesmo conjunto amostral, tais como: variabilidade genética, expressão gênica e um fenótipo de interesse. Modelos estatísticos e probabilísticos. Reconhecimento de imagens e padrões em saúde. O objetivo geral da disciplina será compreender como diferentes camadas de informação podem ser conectadas, e quais métodos e ferramentas computacionais podem fornecer uma visão sistêmica de problemas em saúde.
+  Inovação e marco legal para marcas e patentes. Marco legal para a área de informática. Empreendedorismo: conceitos e questões emergentes. Experiências empreendedoras. A mortalidade de empresas brasileiras. Características e perfil do empreendedor: O empreendedor e o administrador. O processo empreendedor: fatores condicionantes e limitantes. Identificação e avaliação de oportunidades de negócio.
 </p>
