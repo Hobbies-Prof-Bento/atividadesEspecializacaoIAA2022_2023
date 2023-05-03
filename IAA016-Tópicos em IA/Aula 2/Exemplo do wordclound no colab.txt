@@ -1,0 +1,63 @@
+Exemplo do wordclound no colab
+# a primeira vez, tive que instalar o pacote da wiki
+# !pip install wikipedia
+import wikipedia
+import re
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS
+
+wikipedia.set_lang("pt")  
+wiki = wikipedia.page('Ayrton Senna')
+text = wiki.content
+
+# limpa
+text = re.sub(r'==.*?==+', '', text)
+text = text.replace('\n', '')
+
+# Define a function to plot word cloud
+def plot_cloud(wordcloud):
+    # Set figure size
+    plt.figure(figsize=(40, 30))
+    # Display image
+    plt.imshow(wordcloud) 
+    # No axis details
+    plt.axis("off");
+
+sw = STOPWORDS
+sw = [ 'de', 'a', 'o', 'que', 'e', 'do', 'da', 'em', 'um', 'para', 
+             'é', 'com', 'não', 'uma', 'os', 'no', 'se', 'na', 'por', 'mais', 'as', 
+             'dos', 'como', 'mas', 'foi', 'ao', 'ele', 'das', 'tem', 'à', 'seu', 
+             'sua', 'ou', 'ser', 'quando', 'muito', 'há', 'nos', 'já', 'está', 
+             'eu', 'também', 'só', 'pelo', 'pela', 'até', 'isso', 'ela', 'entre', 
+             'era', 'depois', 'sem', 'mesmo', 'aos', 'ter', 'seus', 'quem', 'nas', 
+             'me', 'esse', 'eles', 'estão', 'você', 'tinha', 'foram', 'essa', 
+             'num', 'nem', 'suas', 'meu', 'às', 'minha', 'têm', 'numa', 'pelos', 
+             'elas', 'havia', 'seja', 'qual', 'será', 'nós', 'tenho', 'lhe', 
+             'deles', 'essas', 'esses', 'pelas', 'este', 'fosse', 'dele', 
+             'tu', 'te', 'vocês', 'vos', 'lhes', 'meus', 'minhas', 'teu', 
+              'tua', 'teus', 'tuas', 'nosso', 'nossa', 'nossos', 'nossas', 
+             'dela', 'delas', 'esta', 'estes', 'estas', 'aquele', 'aquela', 
+             'aqueles', 'aquelas', 'isto', 'aquilo', 'estou', 'está', 'estamos', 
+             'estão', 'estive', 'esteve', 'estivemos', 'estiveram', 'estava', 
+             'estávamos', 'estavam', 'estivera', 'estivéramos', 'esteja', 
+             'estejamos', 'estejam', 'estivesse', 'estivéssemos', 'estivessem', 
+             'estiver', 'estivermos', 'estiverem', 'hei', 'há', 'havemos', 'hão', 
+             'houve', 'houvemos', 'houveram', 'houvera', 'houvéramos', 'haja', 
+             'hajamos', 'hajam', 'houvesse', 'houvéssemos', 'houvessem', 'houver', 
+             'houvermos', 'houverem', 'houverei', 'houverá', 'houveremos', 
+             'houverão', 'houveria', 'houveríamos', 'houveriam', 'sou', 
+             'somos', 'são', 'era', 'éramos', 'eram', 'fui', 'foi', 'fomos', 
+             'foram', 'fora', 'fôramos', 'seja', 'sejamos', 'sejam', 'fosse', 
+             'fôssemos', 'fossem', 'for', 'formos', 'forem', 'serei', 'será', 
+             'seremos', 'serão', 'seria', 'seríamos', 'seriam', 'tenho', 'tem', 
+             'temos', 'tém', 'tinha', 'tínhamos', 'tinham', 'tive', 'teve', 
+             'tivemos', 'tiveram', 'tivera', 'tivéramos', 'tenha', 'tenhamos', 
+             'tenham', 'tivesse', 'tivéssemos', 'tivessem', 'tiver', 'tivermos', 
+             'tiverem', 'terei', 'terá', 'teremos', 'terão', 'teria', 'teríamos', 'teriam']
+
+wordcloud = WordCloud(width = 3000, height = 2000, random_state=1, 
+                      background_color='black', colormap='Pastel1', collocations=False, 
+                      stopwords = sw).generate(text)
+
+# Plot
+plot_cloud(wordcloud) 

@@ -1,0 +1,121 @@
+# !pip install wikipedia
+import wikipedia
+import re
+import matplotlib.pyplot as plt
+
+def showDic(dicio,numShow):
+  freqsVal = dicio.values()
+  freqs = list(freqsVal)
+  freqs.sort(reverse=True)
+  qdade = 0
+  # lista os 10 itens mais frequentes
+  for freq in freqs:
+    for k,v in dicio.items():
+      if v == freq:
+        print(k," - ",freq)
+        qdade = qdade + 1
+        if qdade>=numShow:
+          break
+    if qdade>=numShow:
+      break
+
+
+
+wikipedia.set_lang("pt")  
+wiki = wikipedia.page('Ayrton Senna')
+text = wiki.content
+
+# limpa
+frases = text.split(sep='.')
+for i in range(0,len(frases)):
+  #print( i, frases[ i ])
+  frases[i] = re.sub(r'==.*?==+', '', frases[i])
+
+# stopwords
+sw = [ 'de', 'a', 'o', 'que', 'e', 'do', 'da', 'em', 'um', 'para', 
+             'é', 'com', 'não', 'uma', 'os', 'no', 'se', 'na', 'por', 'mais', 'as', 
+             'dos', 'como', 'mas', 'foi', 'ao', 'ele', 'das', 'tem', 'à', 'seu', 
+             'sua', 'ou', 'ser', 'quando', 'muito', 'há', 'nos', 'já', 'está', 
+             'eu', 'também', 'só', 'pelo', 'pela', 'até', 'isso', 'ela', 'entre', 
+             'era', 'depois', 'sem', 'mesmo', 'aos', 'ter', 'seus', 'quem', 'nas', 
+             'me', 'esse', 'eles', 'estão', 'você', 'tinha', 'foram', 'essa', 
+             'num', 'nem', 'suas', 'meu', 'às', 'minha', 'têm', 'numa', 'pelos', 
+             'elas', 'havia', 'seja', 'qual', 'será', 'nós', 'tenho', 'lhe', 
+             'deles', 'essas', 'esses', 'pelas', 'este', 'fosse', 'dele', 
+             'tu', 'te', 'vocês', 'vos', 'lhes', 'meus', 'minhas', 'teu', 
+              'tua', 'teus', 'tuas', 'nosso', 'nossa', 'nossos', 'nossas', 
+             'dela', 'delas', 'esta', 'estes', 'estas', 'aquele', 'aquela', 
+             'aqueles', 'aquelas', 'isto', 'aquilo', 'estou', 'está', 'estamos', 
+             'estão', 'estive', 'esteve', 'estivemos', 'estiveram', 'estava', 
+             'estávamos', 'estavam', 'estivera', 'estivéramos', 'esteja', 
+             'estejamos', 'estejam', 'estivesse', 'estivéssemos', 'estivessem', 
+             'estiver', 'estivermos', 'estiverem', 'hei', 'há', 'havemos', 'hão', 
+             'houve', 'houvemos', 'houveram', 'houvera', 'houvéramos', 'haja', 
+             'hajamos', 'hajam', 'houvesse', 'houvéssemos', 'houvessem', 'houver', 
+             'houvermos', 'houverem', 'houverei', 'houverá', 'houveremos', 
+             'houverão', 'houveria', 'houveríamos', 'houveriam', 'sou', 
+             'somos', 'são', 'era', 'éramos', 'eram', 'fui', 'foi', 'fomos', 
+             'foram', 'fora', 'fôramos', 'seja', 'sejamos', 'sejam', 'fosse', 
+             'fôssemos', 'fossem', 'for', 'formos', 'forem', 'serei', 'será', 
+             'seremos', 'serão', 'seria', 'seríamos', 'seriam', 'tenho', 'tem', 
+             'temos', 'tém', 'tinha', 'tínhamos', 'tinham', 'tive', 'teve', 
+             'tivemos', 'tiveram', 'tivera', 'tivéramos', 'tenha', 'tenhamos', 
+             'tenham', 'tivesse', 'tivéssemos', 'tivessem', 'tiver', 'tivermos', 
+             'tiverem', 'terei', 'terá', 'teremos', 'terão', 'teria', 'teríamos', 'teriam']
+
+
+# frequencia simples
+dicio = {}
+dicio2 = {}
+dicio3 = {}
+dicio4 = {}
+for i in range(0,len(frases)):
+  palavras = re.split('[^\w]',frases[i])
+  nova = []
+  for pal in palavras:
+    lower_pal = pal.lower()
+    if len(pal) < 2:
+      continue
+    if lower_pal in sw:
+      continue
+    # uma palavra, contagem simples e direta  
+    if lower_pal in dicio:
+      dicio[lower_pal] = dicio[lower_pal] + 1
+    else:
+      dicio[lower_pal] = 1
+    nova.append( lower_pal )
+  # duas palavras
+  if len(nova)>1:
+    for i in range(0,len(nova)-1):
+      dupla = str(nova[i]) + ' ' + str(nova[i+1])
+      if dupla in dicio2:
+        dicio2[dupla] = dicio2[dupla] + 1
+      else:
+        dicio2[dupla] = 1
+  # tres palavras
+  if len(nova)>2:
+    for i in range(0,len(nova)-2):
+      tripla = str(nova[i]) + ' ' + str(nova[i+1]) + ' ' + str(nova[i+2])
+      if tripla in dicio3:
+        dicio3[tripla] = dicio3[tripla] + 1
+      else:
+        dicio3[tripla] = 1
+  # quatro palavras
+  if len(nova)>2:
+    for i in range(0,len(nova)-3):
+      quad = str(nova[i]) + ' ' + str(nova[i+1]) + ' ' + str(nova[i+2]) + ' ' + str(nova[i+3])
+      if quad in dicio4:
+        dicio4[quad] = dicio4[quad] + 1
+      else:
+        dicio4[quad] = 1
+
+
+
+print("\nUma palavra")
+showDic(dicio,10)
+print("\nDuas palavras")
+showDic(dicio2,10)
+print("\nTrês palavras")
+showDic(dicio3,10)
+print("\nQuatro palavras")
+showDic(dicio4,10)

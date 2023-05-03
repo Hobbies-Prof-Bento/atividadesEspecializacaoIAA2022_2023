@@ -1,0 +1,153 @@
+Exemplo python - binário-vetor-binário
+Sobre números no contexto computacional
+
+
+Esse complemento foi desenvolvido para auxiliar na compreensão do uso de representação binária no estudo dos algoritmos genéticos.
+
+Importante destacar que a CPU manipula somente números e valores na base binária. Portanto, toda outra representação de informação, seja em bases numéricas (decimal, octal e hexadecimal) ou simbólica (símbolos e letras) são simplesmente "representações apresentadas para os usuários (nós)".
+
+Os "nomes" das bases numéricas indicam o número de "dígitos" que representam cada elemento dentro da base, dessa forma tempos:
+
+a) binários: 0,1
+b) octal: 0,1,2,3,4,5,6,7
+c) decimal: 0,1,2,3,4,5,6,7,8,9
+d) hexadecimal: 0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f
+
+E cada base tem uma aplicação em um segmento próprio dentro da informática, onde existe um sentido "prático" para aplicações específicas, entre outras podemos citar:
+
+O envio de dados para portas paralelas geralmente são na forma de "bytes" (8 bits) onde os 7 primeiros são para dados e 1 para controle.
+
+A tabela ASCII (https://pt.wikipedia.org/wiki/ASCII) é formada por 256 símbolos (de 0 a 255) que normalmente é representado na forma de uma tabela de 16 linhas por 16 colunas, nessa representação a base hexadecimal fica mais apropriada, sendo que a casa das "dezenas" (segundo dígito) representa a linha e a casa das "unidades" representa a coluna. Exemplo 0x41 (linha 4, coluna 1) equivale ao valor 65 na base decimal e representa o símbolo 'A' na tabela ASCII.
+
+Os valores em hexadecimal tem outra vantagem é mais fácil visualizar ou pensar em uma representação dos valores binários em hexadecimal do que em decimal, uma vez que cada digito hexadecimal equivale a 4 dígitos binários. Exemplo: 0x1a = 0001 1010
+
+
+
+Em Python
+Para representar valores em outras bases:
+
+x = 21
+print("decimal {0:d}  hexadecimal {0:x}  octal {0:o} binário {0:b}".format(x,x,x,x) )
+>>> decimal %d hexadecimal %x octal %o binário 10101
+
+Observe que não existe nenhuma mudança de valor, apenas a representação de um mesmo valor (21).
+
+
+Como converter valor numérico para uma representação binária?
+
+Uma versão inspirada no C (operadores binários) (código 1):
+
+def bit2vet(valor):
+  res = [];
+  for i in range(0,32):
+    if valor & (0x01<<i) > 0:
+      res.insert(0,1);
+    else:
+      res.insert(0,0);
+  return res;
+
+Uma versão usando a "spec" de formatação:
+
+def bit2vet(valor):
+  res = [];
+  for letra in '{:b}'.format(valor):
+    res.append(letra)
+  return res;
+
+E a versão mais Python (talvez ainda tenha uma versão ainda mais reduzida...)
+def bit2vet2(valor):
+  return [l for l in '{:b}'.format(valor) ];
+
+Ou ainda, uma versão lambda:
+
+b2v = lambda v:[l for l in '{:b}'.format(v) ]
+
+Importante destacar que a saída dessas últimas funções (baseadas em String), estão na forma de símbolos e não em valor numérico, portanto, para muitas operações, deveríamos converter para inteiro. 
+saída esperada para o valor 0x1a:
+['1', '1', '0', '1', '0']             # observem a presença das aspas, nesse caso '0' equivale ao código ASCII 48 e '1' ao 49, bem diferente dos valores numéricos 0 e 1.
+
+O que pode ser feito de diferentes formas, tente avaliar o custo computacional de cada uma delas:
+Possibilidade 1:
+b2v = lambda v:[int(l) for l in '{:b}'.format(v) ]
+print(b2v(0x1a))
+>> [1, 1, 0, 1, 0]
+possibilidade 2:
+b2v = lambda v:[ord(l)-48 for l in '{:b}'.format(v) ]
+>> [1, 1, 0, 1, 0]
+possibilidade 3:
+def bit2vet2(valor):
+  dicio = {'0':0,'1':1}
+  return [dicio[l] for l in '{:b}'.format(valor)]
+
+
+Como converter a representação vetorial para um valor numérico ?
+
+def bin2num(vet):
+  num = 0;
+  if vet[0] == 1:
+    # num negativos
+    for i in range(1,32):
+      if vet[i]==0:
+        num = num + 2**(31-i);
+    num = -1 - num;
+  else:
+    for i in range(1,32):
+      if vet[i]>0:
+        num = num + 2**(31-i);
+  return num;
+
+O operador ** representa exponenciação, em C, realizamos essa operação com o shift binário (<<) que existe o comando equivalente em Python, mas o resultado é um pouco diferente. Exponenciação é um calculo caro para CPU, enquanto que operador shift pode ser realizada em um ciclo.
+
+Diversas outras formas podem ser pensadas para melhorar esse algoritmo.
+
+
+Sobre os operadores binários
+
+Os operadores binários são:
+
+Operador	Exemplo	significado	Representação binária
+&	3 & 2 == 2	E binário	0011 & 0010 == 0010
+|	6 | 3 == 7	OU binário	0110 | 0011 == 0111
+^	6 | 3 == 5	ou exclusivo	0110 ^ 0011 == 0101
+~	(~5) & 0xf == 6	não x (not binário)	(~0101) & 1111 = 1010
+<<	1 << 2==4	deslocamento a esquerda	 0001<<2 == 0100
+>>	8 >> 2 == 2	deslocamento a direita	1000>>2 == 0010
+Os operadores binários são boas opções para manipularmos bytes no nível de bits (binário) e essas operações são normalmente realizadas em um ciclo de processamento.
+
+Um caso prático, pense em uma imagem em preto e branco (duas cores, dois estados), ela precisa somente um bit para representar cada pixel, portanto para verificar se um bit está com uma das cores, precisamos de uma função parecida com essa:
+
+def isBitOn(num,bit):
+  return num & (0x01<<bit)
+
+x=21
+for dig in range(0,8):
+  print('Digito %d está com o bit %d'%(dig,isBitOn(x,dig)))
+
+onde a saída deverá ser:
+Digito 0 está com o bit 1
+Digito 1 está com o bit 0
+Digito 2 está com o bit 4
+Digito 3 está com o bit 0
+Digito 4 está com o bit 16
+Digito 5 está com o bit 0
+Digito 6 está com o bit 0
+Digito 7 está com o bit 0
+
+Ou ainda podemos fazer:
+
+def isBitOn(num,bit):
+  return num & (0x01<<bit)!=0
+
+e a saída deverá ser:
+Digito 0 está com o bit 1
+Digito 1 está com o bit 0
+Digito 2 está com o bit 1
+Digito 3 está com o bit 0
+Digito 4 está com o bit 1
+Digito 5 está com o bit 0
+Digito 6 está com o bit 0
+Digito 7 está com o bit 0
+
+Você consegue pensar em uma função que mude um determinado bit de qualquer valor para 0 (zero)?
+
+Você consegue pensar em uma função que mude um determinado bit de qualquer valor para 1 (um)?

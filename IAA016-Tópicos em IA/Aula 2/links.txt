@@ -1,0 +1,11 @@
+Links:
+
+https://github.com/amueller/word_cloud
+
+https://sigmoidal.ai/como-criar-uma-wordcloud-em-python/
+
+https://github.com/brunolcarli/Lisa/wiki
+
+https://collections.plos.org/collection/textmining/
+
+https://radimrehurek.com/gensim/
